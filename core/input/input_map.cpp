@@ -35,6 +35,9 @@
 #include "core/os/keyboard.h"
 #include "core/os/os.h"
 #include "core/variant/typed_array.h"
+#ifdef TOOLS_ENABLED
+#include "editor/plugins/node_3d_editor_plugin.h"
+#endif
 
 InputMap *InputMap::singleton = nullptr;
 
@@ -294,6 +297,12 @@ const HashMap<StringName, InputMap::Action> &InputMap::get_action_map() const {
 
 void InputMap::load_from_project_settings() {
 	input_map.clear();
+
+#ifdef TOOLS_ENABLED
+	if (Engine::get_singleton()->is_editor_hint()) {
+		Node3DEditor::get_singleton()->register_viewports_shortcut_actions();
+	}
+#endif
 
 	List<PropertyInfo> pinfo;
 	ProjectSettings::get_singleton()->get_property_list(&pinfo);

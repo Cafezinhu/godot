@@ -497,6 +497,8 @@ public:
 	SubViewport *get_viewport_node() { return viewport; }
 	Camera3D *get_camera_3d() { return camera; } // return the default camera object.
 
+	void register_shortcut_actions();
+
 	Node3DEditorViewport(Node3DEditor *p_spatial_editor, int p_index);
 	~Node3DEditorViewport();
 };
@@ -932,6 +934,8 @@ public:
 
 	void add_gizmo_plugin(Ref<EditorNode3DGizmoPlugin> p_plugin);
 	void remove_gizmo_plugin(Ref<EditorNode3DGizmoPlugin> p_plugin);
+
+	void register_viewports_shortcut_actions();
 
 	void edit(Node3D *p_spatial);
 	void clear();

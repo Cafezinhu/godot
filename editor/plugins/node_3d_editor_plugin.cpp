@@ -5179,6 +5179,17 @@ void Node3DEditorViewport::_set_lock_view_rotation(bool p_lock_rotation) {
 	}
 }
 
+void Node3DEditorViewport::register_shortcut_actions() {
+	register_shortcut_action("spatial_editor/freelook_left", TTR("Freelook Left"), Key::A, true);
+	register_shortcut_action("spatial_editor/freelook_right", TTR("Freelook Right"), Key::D, true);
+	register_shortcut_action("spatial_editor/freelook_forward", TTR("Freelook Forward"), Key::W, true);
+	register_shortcut_action("spatial_editor/freelook_backwards", TTR("Freelook Backwards"), Key::S, true);
+	register_shortcut_action("spatial_editor/freelook_up", TTR("Freelook Up"), Key::E, true);
+	register_shortcut_action("spatial_editor/freelook_down", TTR("Freelook Down"), Key::Q, true);
+	register_shortcut_action("spatial_editor/freelook_speed_modifier", TTR("Freelook Speed Modifier"), Key::SHIFT);
+	register_shortcut_action("spatial_editor/freelook_slow_modifier", TTR("Freelook Slow Modifier"), Key::ALT);
+}
+
 Node3DEditorViewport::Node3DEditorViewport(Node3DEditor *p_spatial_editor, int p_index) {
 	cpu_time_history_index = 0;
 	gpu_time_history_index = 0;
@@ -5342,14 +5353,7 @@ Node3DEditorViewport::Node3DEditorViewport(Node3DEditor *p_spatial_editor, int p
 		view_menu->get_popup()->set_item_tooltip(shadeless_idx, unsupported_tooltip);
 	}
 
-	register_shortcut_action("spatial_editor/freelook_left", TTR("Freelook Left"), Key::A, true);
-	register_shortcut_action("spatial_editor/freelook_right", TTR("Freelook Right"), Key::D, true);
-	register_shortcut_action("spatial_editor/freelook_forward", TTR("Freelook Forward"), Key::W, true);
-	register_shortcut_action("spatial_editor/freelook_backwards", TTR("Freelook Backwards"), Key::S, true);
-	register_shortcut_action("spatial_editor/freelook_up", TTR("Freelook Up"), Key::E, true);
-	register_shortcut_action("spatial_editor/freelook_down", TTR("Freelook Down"), Key::Q, true);
-	register_shortcut_action("spatial_editor/freelook_speed_modifier", TTR("Freelook Speed Modifier"), Key::SHIFT);
-	register_shortcut_action("spatial_editor/freelook_slow_modifier", TTR("Freelook Slow Modifier"), Key::ALT);
+	register_shortcut_actions();
 
 	ED_SHORTCUT("spatial_editor/lock_transform_x", TTR("Lock Transformation to X axis"), Key::X);
 	ED_SHORTCUT("spatial_editor/lock_transform_y", TTR("Lock Transformation to Y axis"), Key::Y);
@@ -9203,6 +9207,12 @@ void Node3DEditor::remove_gizmo_plugin(Ref<EditorNode3DGizmoPlugin> p_plugin) {
 	gizmo_plugins_by_priority.erase(p_plugin);
 	gizmo_plugins_by_name.erase(p_plugin);
 	_update_gizmos_menu();
+}
+
+void Node3DEditor::register_viewports_shortcut_actions() {
+	for (unsigned int i = 0; i < VIEWPORTS_COUNT; i++) {
+		viewports[i]->register_shortcut_actions();
+	}
 }
 
 Node3DEditorPlugin::Node3DEditorPlugin() {
